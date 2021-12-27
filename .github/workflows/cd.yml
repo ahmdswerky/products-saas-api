@@ -32,3 +32,11 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: php artisan test
+
+  deploy:
+    needs: [ tests ]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: ls -al
