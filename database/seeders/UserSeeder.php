@@ -17,6 +17,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        if (User::where('email', 'ahmdswerky@gmail.com')->exists()) {
+            return;
+        }
+
         $users = User::factory()->count(1)->create([
             'public_id' => Str::random(20),
             'name' => 'Customer',
