@@ -54,7 +54,7 @@ jobs:
     - run: php artisan config:clear
     - run: php artisan optimize:clear
     - run: php artisan migrate --force
-    - run: php artisan db:seed --class=EssentialSeeder
+    - run: php artisan db:seed --force --class=EssentialSeeder
     #- run: php artisan app:setup
     - run: php artisan config:cache
     - run: php artisan route:cache
