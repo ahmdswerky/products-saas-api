@@ -37,7 +37,7 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       #run: php artisan test --no-interaction
-      run: ./vendor/bin/pest --coverage --ci --min 70
+      run: ./vendor/bin/pest --coverage --ci
 
   deploy:
     needs: [ tests ]
