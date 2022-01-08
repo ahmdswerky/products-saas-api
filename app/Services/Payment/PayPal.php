@@ -109,9 +109,11 @@ class PayPal
     {
         $order = $this->client->createOrder($amount, $currency);
 
+        $status = $this->checkPaymentStatus($order['status']);
+
         return $this->resource([
             'id' => $order['id'],
-            'status' => $order['status'],
+            'status' => $status,
             'paid_amount' => $amount,
         ]);
     }

@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use App\Casts\DateTime;
 use App\Traits\Mediable;
 use App\Traits\Filterable;
 use Illuminate\Support\Str;
+use App\Enums\PaymentStatus;
 use App\Helpers\CurrencyConverter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -31,12 +33,14 @@ class Product extends Model
 
     protected $casts = [
         'quantity' => 'integer',
+        'price' => 'integer',
+        'created_at' => DateTime::class,
     ];
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
+    //public function getRouteKeyName()
+    //{
+    //    return 'slug';
+    //}
 
     public static function boot()
     {
@@ -71,6 +75,11 @@ class Product extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function successfulPayments(): HasMany
+    {
+        return $this->payments()->where('status', PaymentStatus::SUCCEEDED);
+    }
+
     public function getMerchantsIdsAttribute()
     {
         $metas = MerchantMeta::with(['gateway', 'merchant'])->where('merchant_id', $this->id)->get();
@@ -78,14 +87,8 @@ class Product extends Model
         return $metas->map(function ($one) {
             return [
                 'gateway' => $one->gateway->key,
-                'gateway' => $one->gateway->key,
             ];
         });
-    }
-
-    public function getAvatarAttribute()
-    {
-        return $this->photo('photo')->first();
     }
 
     public function getAccountId($gateway)
@@ -112,7 +115,7 @@ class Product extends Model
 
     public function getQuantityAttribute($value)
     {
-        $reserved = 0 ?: $this->payments()->count();
+        $reserved = 0 ?: $this->successfulPayments()->count();
         $quantity = $value - $reserved;
 
         return $quantity > 0 ? $quantity : 0;

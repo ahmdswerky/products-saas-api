@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use Database\Seeders\UserSeeder;
+use Database\Seeders\EssentialSeeder;
 use Illuminate\Contracts\Console\Kernel;
 
 trait CreatesApplication

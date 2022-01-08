@@ -12,6 +12,7 @@ class Customer extends Model
     use HasFactory;
 
     public $fillable = [
+        'public_id',
         'reference_id',
         'payment_gateway_id',
         'user_id',
@@ -20,6 +21,17 @@ class Customer extends Model
     public function ownedBy(string|int $userId): bool
     {
         return (int) $this->user_id === $userId;
+    }
+
+    public function scopeByMethod($query, string $method)
+    {
+        return $query->where(function ($query) use ($method) {
+            $query->whereHas('gateway', function ($query) use ($method) {
+                $query->whereHas('methods', function ($query) use ($method) {
+                    $query->where('key', $method);
+                });
+            });
+        });
     }
 
     public function user(): BelongsTo

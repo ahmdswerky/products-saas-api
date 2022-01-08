@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Website;
 
 use App\Models\PaymentGateway;
-use App\Models\Status;
 use App\Models\PaymentMethod;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;

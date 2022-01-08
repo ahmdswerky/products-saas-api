@@ -34,8 +34,10 @@ class ProductFactory extends Factory
             'public_id' => Str::random(20),
             'title' => $this->faker->realText(20),
             'description' => $this->description,
+            'category' => $this->faker->word,
             'price' => $this->faker->numberBetween(100, 3500),
-            'currency' => $this->faker->randomElement(['USD', 'EUR', 'EGP']),
+            //'currency' => $this->faker->randomElement(['USD', 'EUR', 'EGP']),
+            'currency' => $this->faker->randomElement(['USD']),
             'quantity' => $this->faker->numberBetween(1, 15),
         ];
     }

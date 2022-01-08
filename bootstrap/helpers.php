@@ -151,6 +151,11 @@ function array_to_object(array $array): object
     return json_decode(json_encode($array, JSON_FORCE_OBJECT));
 }
 
+function apiKey()
+{
+    return request()->header('api-key') ?: request()->api_key;
+}
+
 function active_guard()
 {
     $guards = array_keys(config('auth.guards'));

@@ -13,9 +13,16 @@ class PaymentFilter extends QueryFilter
 
     /** @var array */
     protected $validationRules = [
+        'product' => 'exists:products,public_id',
         'auth' => 'required_with_all:merchant,user',
         'merchant' => 'required_with_all:auth,user',
     ];
+
+    public function product($id)
+    {
+        //$this->builder->where('product_id', $id);
+        $this->builder->whereHas('product', fn ($product) => $product->where('public_id', $id));
+    }
 
     public function auth()
     {

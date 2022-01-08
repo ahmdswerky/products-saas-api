@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Website;
 
 use App\Models\Payment;
+use App\Models\Merchant;
 use App\Enums\PaymentStatus;
 use App\Enums\ReferenceType;
 use Illuminate\Http\Request;
@@ -11,13 +12,26 @@ use App\Services\PaymentService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Filters\Website\PaymentFilter;
+use App\Http\Resources\MainPaginatedCollection;
 use App\Http\Resources\Website\PaymentResource;
 use App\Http\Requests\Website\PaymentStoreRequest;
 use App\Http\Requests\Website\PaymentUpdateRequest;
-use App\Http\Resources\MainPaginatedCollection;
 
 class PaymentController extends Controller
 {
+    /** \App\Models\Merchant */
+    protected $merchant;
+
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Product::class, 'product');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +39,11 @@ class PaymentController extends Controller
      */
     public function index(PaymentFilter $filters)
     {
-        $payments = Payment::filter($filters)->latest()->paginate(per_page());
+        //$payments = Payment::filter($filters)->byMerchant($merchant->id)->latest()->paginate(per_page());
+        $payments = $this->merchant()->payments()
+            ->filter($filters)
+            ->latest()
+            ->paginate(per_page());
         //$payments = Payment::filter($filters)->paginate(per_page());
 
         return new MainPaginatedCollection(
@@ -42,10 +60,11 @@ class PaymentController extends Controller
     public function store(PaymentStoreRequest $request)
     {
         $method = $request->input('method');
+        $price = $request->product->usd_price;
         $customer = PaymentService::getUserCustomerId(Auth::user(), $method);
         $paymentService = PaymentService::init($method, $request->account_id);
 
-        $order = $paymentService->createOrder($customer, $request->product->price);
+        $order = $paymentService->createOrder($customer, $price);
 
         //$this->product->update([
         //    'quantity' => $request->product->quantity - 1,
@@ -54,6 +73,8 @@ class PaymentController extends Controller
         $payment = Auth::user()->payments()->create(array_merge(
             $request->validated(),
             [
+                'merchant_id' => $request->product->merchant_id,
+                'amount' => $price,
                 'reference_id' => $order->id,
                 'payment_method_id' => PaymentMethod::byKey($method),
                 //'status' => $paymentService->checkPaymentStatus($order->status),
@@ -71,7 +92,7 @@ class PaymentController extends Controller
             'client_secret' => optional($order)->client_secret,
             'payment_id' => $order->id,
             'payment' => new PaymentResource($payment),
-        ]);
+        ], 201);
     }
 
     /**

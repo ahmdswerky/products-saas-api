@@ -31,7 +31,6 @@ class PaymentStoreRequest extends FormRequest
     {
         return [
             'product_id' => 'bail|required|integer|exists:products,id',
-            'amount' => 'bail|required|integer|min:1',
             'method' => [
                 'required',
                 Rule::in(
@@ -54,7 +53,7 @@ class PaymentStoreRequest extends FormRequest
                 ),
             ],
             'quantity' => [
-                new Quantity($this->product->quantity - 1)
+                new Quantity(optional($this->product)->quantity - 1)
             ]
         ];
     }
@@ -62,11 +61,15 @@ class PaymentStoreRequest extends FormRequest
     public function prepareForValidation()
     {
         // TODO: fix
-        $this->product = Product::find($this->product_id);
+        //$this->product = Product::find($this->product_id);
+        $this->product = Product::where('public_id', $this->product_id)->first();
         $gateway = PaymentService::gateway($this->input('method'));
 
         $this->merge([
             'account_id' => optional($this->product)->getAccountId($gateway),
+            'product_id' => optional($this->product)->id,
         ]);
+
+        optional($this->product)->getAccountId($gateway);
     }
 }

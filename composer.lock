@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "45d4fa859a0814d7e0e93da97be7acb9",
+    "content-hash": "7918f4ed0aeb33a589a8ba0fc83469e0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -8619,6 +8619,77 @@
                 }
             ],
             "time": "2021-01-03T15:53:42+00:00"
+        },
+        {
+            "name": "pestphp/pest-plugin-global-assertions",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pestphp/pest-plugin-global-assertions.git",
+                "reference": "66eb17338393b84a5086ad01ef4f9ce972e177b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pestphp/pest-plugin-global-assertions/zipball/66eb17338393b84a5086ad01ef4f9ce972e177b3",
+                "reference": "66eb17338393b84a5086ad01ef4f9ce972e177b3",
+                "shasum": ""
+            },
+            "require": {
+                "pestphp/pest": "^1.0",
+                "pestphp/pest-plugin": "^1.0",
+                "php": "^7.3 || ^8.0"
+            },
+            "conflict": {
+                "pestphp/pest": "<1.0"
+            },
+            "require-dev": {
+                "pestphp/pest-dev-tools": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/compiled.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A plugin to add global assertions to Pest",
+            "keywords": [
+                "assertions",
+                "framework",
+                "global",
+                "pest",
+                "php",
+                "test",
+                "testing",
+                "unit"
+            ],
+            "support": {
+                "issues": "https://github.com/pestphp/pest-plugin-global-assertions/issues",
+                "source": "https://github.com/pestphp/pest-plugin-global-assertions/tree/v1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/nunomaduro",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/nunomaduro",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-01-03T15:35:12+00:00"
         },
         {
             "name": "pestphp/pest-plugin-laravel",

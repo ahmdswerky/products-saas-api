@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\MerchantMeta;
 use Illuminate\Database\Seeder;
 
-class EssentialSeeder extends Seeder
+class ContactSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +13,6 @@ class EssentialSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(PaymentMethodSeeder::class);
+        //
     }
 }

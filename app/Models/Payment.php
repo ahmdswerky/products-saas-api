@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\DateTime;
 use App\Traits\Filterable;
 use Illuminate\Support\Str;
+use App\Enums\PaymentStatus;
 use App\Traits\Referenceable;
 use App\Helpers\CurrencyConverter;
 use Illuminate\Database\Eloquent\Model;
@@ -49,6 +50,11 @@ class Payment extends Model
         return $query->whereHas('product', function ($query) use ($merchantId) {
             $query->where('merchant_id', $merchantId);
         });
+    }
+
+    public function scopeSucessful($query)
+    {
+        return $query->where('status', PaymentStatus::SUCCEEDED);
     }
 
     //public function merchant(): Builder

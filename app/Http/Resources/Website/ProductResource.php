@@ -25,7 +25,6 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'currency' => $this->currency,
             'quantity' => $this->quantity,
-            'merchant_ids' => $this->merchantIds,
             'merchant' => new MerchantResource($this->merchant),
             'created_at' => $this->created_at,
         ];

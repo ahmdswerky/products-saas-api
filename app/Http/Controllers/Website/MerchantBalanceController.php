@@ -19,6 +19,7 @@ class MerchantBalanceController extends Controller
 
         return response([
             'total' => $total,
+            'currency' => 'USD',
         ]);
     }
 }

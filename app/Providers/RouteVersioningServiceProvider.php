@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -24,22 +25,22 @@ class RouteVersioningServiceProvider extends RouteServiceProvider
             //    ->namespace($this->namespace)
             //    ->group(base_path('routes/api/webhooks.php'));
 
-            Route::prefix('webhooks')
+            Route::prefix('webhooks/v1')
                 ->middleware(['api'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/webhooks.php'));
 
-            Route::prefix('api')
+            Route::prefix('api/v1')
                 ->middleware(['api'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/guest.php'));
 
-            Route::prefix('api')
+            Route::prefix('api/v1')
                 ->middleware(['api', 'auth:api,key'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/website.php'));
 
-            Route::prefix('api/dashboard')
+            Route::prefix('api/v1/dashboard')
                 ->middleware(['api', 'auth:api'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/dashboard.php'));
@@ -73,11 +74,11 @@ class RouteVersioningServiceProvider extends RouteServiceProvider
                 ->firstOrFail();
         });
 
-        Route::bind('user', function ($value) {
-            return Product::where('public_id', $value)
-                ->orWhere('id', $value)
-                ->orWhere('public_id', $value)
-                ->firstOrFail();
-        });
+        //Route::bind('user', function ($value) {
+        //    return User::where('public_id', $value)
+        //        ->orWhere('id', $value)
+        //        ->orWhere('public_id', $value)
+        //        ->firstOrFail();
+        //});
     }
 }

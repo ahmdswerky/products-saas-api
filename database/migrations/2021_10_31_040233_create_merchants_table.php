@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Models\Status;
 use App\Models\Organization;
 use App\Enums\MerchantStatus;
 use App\Models\PaymentGateway;
@@ -25,7 +24,7 @@ class CreateMerchantsTable extends Migration
             $table->string('public_id')->unique();
             $table->string('title');
             //$table->string('reference_id')->nullable();
-            $table->foreignIdFor(PaymentGateway::class);
+            //$table->foreignIdFor(PaymentGateway::class);
             $table->foreignIdFor(User::class);
             $table->string('status')->default(MerchantStatus::NONE);
             //$table->boolean('is_able_to_accept_payments')->nullable();

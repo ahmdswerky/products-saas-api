@@ -223,136 +223,17 @@ class CreditCard
             'amount' => $amount * 100,
             'currency' => $currency,
             'on_behalf_of' => $this->accountId,
-            //'payment_method' => $paymentMethod,
             'customer' => $custormerId,
             'payment_method_types' => ['card'],
-            //'transfer_data' => [
-            //    'destination' => $this->accountId,
-            //],
         ]);
+
+        $status = $this->checkPaymentStatus($paymentIntent->status);
 
         return $this->resource([
             'id' => $paymentIntent->id,
             'paid_amount' => $paymentIntent->amount_received,
-            'status' => $paymentIntent->status,
+            'status' => $status,
             'client_secret' => $paymentIntent->client_secret,
-        ]);
-    }
-
-    public function createSubscription(string $priceId, string $customer, string $currency = 'USD')
-    {
-        $subscription = $this->client->subscriptions->create([
-            'payment_behavior' => 'allow_incomplete',
-            'customer' => $customer,
-            'items' => [
-                ['price' => $priceId],
-            ],
-            // TODO: add
-            //'transfer_data' => [
-            //    'destination' => $this->accountId,
-            //],
-            'expand' => ['latest_invoice.payment_intent'],
-        ]);
-
-        return $this->resource([
-            'id' => $subscription->id,
-            'paid_amount' => $subscription->unit_amount,
-            'type' => $subscription->type,
-        ]);
-    }
-
-    public function cancelSubscription(string $subscriptionId)
-    {
-        $subscription = $this->client->subscriptions->cancel($subscriptionId);
-
-        return $this->resource([
-            'id' => $subscription->id,
-            'paid_amount' => $subscription->unit_amount,
-            'type' => $subscription->type,
-        ]);
-    }
-
-    public function createPrice(int $amount, ?string $interval, string $currency)
-    {
-        $price = $this->client->prices->create([
-            'unit_amount' => $amount * 100,
-            'currency' => $currency,
-            'recurring' => $interval ? ['interval' => $interval] : [],
-            'product_data' => [
-                'name' => $amount . $currency . ' subscription',
-            ],
-        ]);
-
-        return $this->resource([
-            'id' => $price->id,
-            'valid' => $price->active,
-            'type' => $price->type,
-        ]);
-    }
-
-    public function getPrice(string $priceId)
-    {
-        $price = $this->client->prices->retrieve($priceId, [
-            'expand' => [
-                'product',
-                //'metadata',
-            ],
-        ]);
-
-        return $this->resource([
-            'id' => $price->id,
-            'raw' => $price,
-        ]);
-    }
-
-    public function createPlan(int $amount, string $currency)
-    {
-        $product = $this->createProduct();
-
-        $plan = $this->client->plans->create([
-            'amount' => $amount * 100,
-            'currency' => $currency,
-            'interval' => 'month',
-            'product' => $product->id,
-        ]);
-
-        //$price = $this->client->prices->create([
-        //    'unit_amount' => $amount * 100,
-        //    'currency' => $currency,
-        //    'recurring' => ['interval' => 'month'],
-        //    'product_data' => [
-        //        'name' => $amount . $currency . ' subscription',
-        //    ],
-        //]);
-
-        return $this->resource([
-            'id' => $plan->id,
-        ]);
-    }
-
-    public function createProduct()
-    {
-        $product = $this->client->products->create([
-          'name' => 'subscription',
-        ]);
-
-        return $this->resource([
-            'id' => $product->id,
-        ]);
-    }
-
-    public function getInvoice($invoiceId)
-    {
-        $invoice = $this->client->invoices->retrieve($invoiceId);
-
-        return $this->resource([
-            'id' => $invoice->id,
-            'payment_id' => $invoice->charge,
-            'amount_due' => $invoice->amount_due,
-            'amount_paid' => $invoice->amount_paid,
-            'amount_remaining' => $invoice->amount_remaining,
-            'currency' => $invoice->currency,
-            'customer_id' => $invoice->customer,
         ]);
     }
 

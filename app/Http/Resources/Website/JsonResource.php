@@ -8,8 +8,6 @@ class JsonResource extends BaseJsonResource
 {
     public function id()
     {
-        return $this->id;
-
         $key = $this->getRouteKeyName();
 
         return $this->public_id ?: $this->$key;

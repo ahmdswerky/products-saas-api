@@ -16,7 +16,7 @@ class ProductStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->merchant()->exists();
+        return true;
     }
 
     /**
@@ -28,12 +28,13 @@ class ProductStoreRequest extends FormRequest
     {
         return [
             'title' => 'required|min:2',
+            'description' => 'nullable|min:2|max:1000',
             //'usd_price' => 'bail|required|integer|min:1',
-            'price' => 'bail|required|integer|min:1',
+            'price' => 'bail|required|integer|gt:0',
             'category' => 'required|min:2',
             'currency' => 'nullable|size:3|exists:currencies,name',
             'photo' => 'bail|required|image|max:4096',
-            'merchant_id' => 'required|exists:merchants,id',
+            //'merchant_id' => 'required|exists:merchants,id',
         ];
     }
 

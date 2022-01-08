@@ -15,6 +15,9 @@ use App\Http\Requests\Website\ProductUpdateRequest;
 
 class ProductController extends Controller
 {
+    /** \App\Models\Merchant */
+    protected $merchant;
+
     /**
      * Create the controller instance.
      *
@@ -32,7 +35,9 @@ class ProductController extends Controller
      */
     public function index(ProductFilter $filter)
     {
-        $products = Product::filter($filter)->latest()->paginate(per_page());
+        //$merchant = Merchant::byApiKey(request()->header('api-key'))->firstOrFail();
+        //$products = Product::filter($filter)->latest()->paginate(per_page());
+        $products = $this->merchant()->products()->filter($filter)->latest()->paginate(per_page());
 
         return new MainPaginatedCollection(
             ProductResource::collection($products)
@@ -47,8 +52,8 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
-        $merchant = Merchant::find($request->merchant_id);
-        $product = $merchant->products()->create($request->validated());
+        //$merchant = Merchant::find($request->merchant_id);
+        $product = $this->merchant()->products()->create($request->validated());
 
         if ($request->has('photo')) {
             $product->addMedia($request->file('photo'), 'photo', true, [

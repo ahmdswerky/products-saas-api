@@ -32,38 +32,32 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
 
-        $avatar = generate_letter_image($user->name[0]);
+        //$avatar = generate_letter_image($user->name[0]);
 
-        $user->addMedia($avatar, 'photo', true, [
-            'name' => 'avatar',
-        ], true);
+        //$user->addMedia($avatar, 'photo', true, [
+        //    'name' => 'avatar',
+        //], true);
 
-        $customers = PaymentService::createCustomers([
-            'name' => $user->name,
-            'email' => $user->email,
-        ]);
+        //$customers = PaymentService::createCustomers([
+        //    'name' => $user->name,
+        //    'email' => $user->email,
+        //]);
 
-        collect($customers)->map(function ($customer) use ($user) {
-            $user->customers()->create([
-                'public_id' => Str::random(20),
-                'reference_id' => $customer->id,
-                'payment_gateway_id' => PaymentGateway::byKey($customer->gateway),
-            ]);
-        });
+        //collect($customers)->map(function ($customer) use ($user) {
+        //    $user->customers()->create([
+        //        'public_id' => Str::random(20),
+        //        'reference_id' => $customer->id,
+        //        'payment_gateway_id' => PaymentGateway::byKey($customer->gateway),
+        //    ]);
+        //});
 
-        $merchant = $user->merchants()->create([
-            'public_id' => Str::random(20),
-            'api_key' => Str::random(15),
-            'api_secret' => Str::random(30),
-            'title' => 'The Store',
-            'payment_gateway_id' => PaymentGateway::byKey('stripe'),
-        ]);
+        //$merchant = $user->merchants()->create();
 
-        $avatar = 'https://cdn-icons-png.flaticon.com/512/4483/4483129.png';
+        //$avatar = 'https://cdn-icons-png.flaticon.com/512/4483/4483129.png';
 
-        $merchant->addMedia($avatar, 'photo', true, [
-            'name' => 'avatar',
-        ], true);
+        //$merchant->addMedia($avatar, 'photo', true, [
+        //    'name' => 'avatar',
+        //], true);
 
         $token = $user->createToken('main');
 

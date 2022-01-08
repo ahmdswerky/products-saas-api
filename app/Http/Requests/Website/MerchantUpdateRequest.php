@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Website;
 
-use App\Models\Status;
 use App\Models\PaymentMethod;
 use App\Models\PaymentGateway;
 use Illuminate\Validation\Rule;

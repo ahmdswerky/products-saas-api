@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Mediable;
 use Illuminate\Support\Str;
+use App\Services\PaymentService;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -34,6 +35,37 @@ class User extends Authenticatable
 
         self::creating(function ($user) {
             $user->public_id = Str::random(20);
+        });
+
+        self::created(function ($user) {
+            $avatar = generate_letter_image($user->name[0]);
+
+            $user->addMedia($avatar, 'photo', true, [
+                'name' => 'avatar',
+            ], true);
+
+            $customers = PaymentService::createCustomers([
+                'name' => $user->name,
+                'email' => $user->email,
+            ]);
+
+            collect($customers)->map(function ($customer) use ($user) {
+                $user->customers()->create([
+                    'public_id' => Str::random(20),
+                    'reference_id' => $customer->id,
+                    'payment_gateway_id' => PaymentGateway::byKey($customer->gateway),
+                ]);
+            });
+
+            $merchant = $user->merchants()->create([
+                'title' => 'default',
+            ]);
+
+            $avatar = 'https://cdn-icons-png.flaticon.com/512/4483/4483129.png';
+
+            $merchant->addMedia($avatar, 'photo', true, [
+                'name' => 'avatar',
+            ], true);
         });
     }
 
@@ -72,5 +104,10 @@ class User extends Authenticatable
     public function getAvatarAttribute()
     {
         return $this->photo('avatar')->first();
+    }
+
+    public function getApiKeyAttribute()
+    {
+        return optional($this->merchant)->api_key;
     }
 }
