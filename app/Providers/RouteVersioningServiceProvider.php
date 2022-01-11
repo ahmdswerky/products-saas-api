@@ -25,22 +25,22 @@ class RouteVersioningServiceProvider extends RouteServiceProvider
             //    ->namespace($this->namespace)
             //    ->group(base_path('routes/api/webhooks.php'));
 
-            Route::prefix('webhooks/v1')
+            Route::prefix('webhooks')
                 ->middleware(['api'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/webhooks.php'));
 
-            Route::prefix('api/v1')
+            Route::prefix('api')
                 ->middleware(['api'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/guest.php'));
 
-            Route::prefix('api/v1')
+            Route::prefix('api')
                 ->middleware(['api', 'auth:api,key'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/website.php'));
 
-            Route::prefix('api/v1/dashboard')
+            Route::prefix('api/dashboard')
                 ->middleware(['api', 'auth:api'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/dashboard.php'));

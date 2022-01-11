@@ -22,7 +22,7 @@ class Cors
             'Access-Control-Allow-Origin' => '*',
             'Access-Control-Allow-Methods' => 'POST, GET, OPTIONS, PUT, DELETE',
             'Access-Control-Allow-Headers' =>
-                'Content-Type, X-Auth-Token, X-API-Key, API-Key, X-Currency, X-Locale, Origin, Authorization'
+                'Content-Type, X-Auth-Token, Host, X-API-Key, API-Key, X-Currency, X-Locale, Origin, Authorization'
         ];
 
         collect($headers)->keys()->map(function ($header) use ($headers, $response) {
