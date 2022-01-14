@@ -37,8 +37,6 @@ jobs:
       run: php artisan key:generate
     - name: Clear cache
       run: php artisan config:clear
-    - name: Install Passport
-      run: php artisan passport:keys
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
@@ -47,6 +45,8 @@ jobs:
         touch database/database.sqlite
     - name: Run Database Migrations
       run: php artisan migrate --path=database/database.sqlite
+    - name: Install Passport
+      run: php artisan passport:keys
     - name: Execute tests (Unit and Feature tests) via Pest
       env:
         DB_CONNECTION: sqlite
