@@ -30,21 +30,23 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v2
     - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
     - name: Install Dependenciess
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
     - name: Generate key
       run: php artisan key:generate
-    #- name: Run Database Migrations
-    #  run: php artisan migrate
+    - name: Run Database Migrations
+      run: php artisan migrate --path=database/database.sqlite
+    - name: Clear cache
+      run: php artisan config:clear
     - name: Install Passport
-      run: php artisan passport:install
+      run: php artisan passport:keys
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
-    #- name: Create Database
-    #  run: |
-    #    mkdir -p database
-    #    touch database/database.sqlite
+    - name: Create Database
+      run: |
+        mkdir database
+        touch database/database.sqlite
     - name: Execute tests (Unit and Feature tests) via Pest
       env:
         DB_CONNECTION: sqlite
