@@ -35,8 +35,6 @@ jobs:
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
     - name: Generate key
       run: php artisan key:generate
-    - name: Run Database Migrations
-      run: php artisan migrate --path=database/database.sqlite
     - name: Clear cache
       run: php artisan config:clear
     - name: Install Passport
@@ -47,6 +45,8 @@ jobs:
       run: |
         mkdir database
         touch database/database.sqlite
+    - name: Run Database Migrations
+      run: php artisan migrate --path=database/database.sqlite
     - name: Execute tests (Unit and Feature tests) via Pest
       env:
         DB_CONNECTION: sqlite
