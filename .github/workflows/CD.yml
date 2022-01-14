@@ -41,7 +41,7 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
       run: |
-        mkdir database
+        mkdir -p database
         touch database/database.sqlite
     - name: Run Database Migrations
       run: php artisan migrate --path=database/database.sqlite
