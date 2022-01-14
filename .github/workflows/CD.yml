@@ -1,8 +1,8 @@
 name: Deploy to Server
 
-env:
-  DB_USERNAME: ${{ secrets.DB_USERNAME }}
-  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+#env:
+#  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+#  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 jobs:
   tests:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     #services:
     #  mysql:
     #    image: mysql:5.7
