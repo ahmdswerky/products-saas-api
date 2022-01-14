@@ -44,7 +44,7 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
     - name: Run Database Migrations
-      run: php artisan migrate --path=database/database.sqlite --seed
+      run: php artisan migrate --path=database/database.sqlite
     - name: Install Passport
       run: php artisan passport:keys
     - name: Execute tests (Unit and Feature tests) via Pest
