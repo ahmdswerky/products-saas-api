@@ -38,6 +38,8 @@ jobs:
     - name: Clear cache
       run: php artisan config:clear
     - run: cat .env
+    - name: Populate storage by symlink
+      run: php artisan storage:link
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
@@ -53,7 +55,7 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       #run: php artisan test --no-interaction
-      run: ./vendor/bin/pest --coverage --ci
+      run: ./vendor/bin/pest
 
   deploy:
     needs: [ tests ]
