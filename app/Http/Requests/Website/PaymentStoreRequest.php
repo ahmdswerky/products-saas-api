@@ -54,7 +54,7 @@ class PaymentStoreRequest extends FormRequest
             ],
             'quantity' => [
                 new Quantity(optional($this->product)->quantity - 1)
-            ]
+            ],
         ];
     }
 

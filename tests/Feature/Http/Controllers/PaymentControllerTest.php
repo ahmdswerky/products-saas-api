@@ -34,6 +34,8 @@ it('can process credit card payments', function () {
         ],
     ];
 
+    expect(Product::get())->toHaveCount(1);
+
     post(action([PaymentController::class, 'store']), [
         'product_id' => $product->public_id,
         'method' => 'credit_card',
