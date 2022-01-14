@@ -82,7 +82,7 @@ trait Mediable
             'description' => $additional['description'] ?? null,
             'notes' => $additional['notes'] ?? null,
             'is_main' => $main,
-            'user_id' => auth()->check() ? auth()->id() : null,
+            //'user_id' => auth()->check() ? auth()->id() : null,
         ], $this);
     }
 
@@ -98,7 +98,7 @@ trait Mediable
             'description' => $additional['description'] ?? null,
             'notes' => $additional['notes'] ?? null,
             'is_main' => (bool) $main,
-            'user_id' => auth()->check() ? auth()->id() : null,
+            //'user_id' => auth()->check() ? auth()->id() : null,
         ], $this);
     }
 
