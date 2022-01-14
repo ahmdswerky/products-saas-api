@@ -25,14 +25,14 @@ abstract class TestCase extends BaseTestCase
         $this->seed(EssentialSeeder::class);
         $this->seed(UserSeeder::class);
 
-        $this->artisan('currency:fetch');
+        //$this->artisan('currency:fetch');
 
-        //Currency::create([
-        //    'name' => 'USD',
-        //    'base' => 'USD',
-        //    'date' => today()->format('Y-m-d'),
-        //    'value' => 1,
-        //]);
+        Currency::create([
+            'name' => 'USD',
+            'base' => 'USD',
+            'date' => today()->format('Y-m-d'),
+            'value' => 1,
+        ]);
 
         //$this->seed(ProductSeeder::class);
 
