@@ -37,7 +37,7 @@ jobs:
       run: php artisan key:generate
     - name: Clear cache
       run: php artisan config:clear
-    - run: cat .env
+    - run: php artisan tinker --execute="echo config('app.key')"
     - name: Populate storage by symlink
       run: php artisan storage:link
     - name: Directory Permissions
