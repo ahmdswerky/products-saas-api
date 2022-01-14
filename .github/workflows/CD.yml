@@ -1,8 +1,8 @@
 name: Deploy to Server
 
-#env:
-#  DB_USERNAME: ${{ secrets.DB_USERNAME }}
-#  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+env:
+  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
 on:
   push:
@@ -55,7 +55,7 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       #run: php artisan test --no-interaction
-      run: ./vendor/bin/pest
+      run: ./vendor/bin/pest --ci
 
   deploy:
     needs: [ tests ]
