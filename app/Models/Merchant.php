@@ -25,7 +25,7 @@ class Merchant extends Model
         'api_secret',
         'title',
         'user_id',
-        'status',
+        //'status',
     ];
 
     protected $casts = [
@@ -102,6 +102,11 @@ class Merchant extends Model
     public function payments()
     {
         return $this->hasManyThrough(Payment::class, Product::class);
+    }
+
+    public function integrations()
+    {
+        return $this->hasMany(Integration::class);
     }
 
     public function user(): BelongsTo

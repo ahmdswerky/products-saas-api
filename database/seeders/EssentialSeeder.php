@@ -16,5 +16,6 @@ class EssentialSeeder extends Seeder
     public function run()
     {
         $this->call(PaymentMethodSeeder::class);
+        $this->call(IntegrationNameSeeder::class);
     }
 }

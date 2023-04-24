@@ -151,7 +151,7 @@ function array_to_object(array $array): object
     return json_decode(json_encode($array, JSON_FORCE_OBJECT));
 }
 
-function apiKey()
+function api_key()
 {
     return request()->header('api-key') ?: request()->api_key;
 }

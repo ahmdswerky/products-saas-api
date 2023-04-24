@@ -28,6 +28,8 @@ return [
     |
     */
 
+    'storage-path' => env('STORAGE_PATH'),
+
     'disks' => [
 
         'local' => [

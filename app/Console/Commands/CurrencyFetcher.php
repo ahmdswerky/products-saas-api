@@ -47,6 +47,10 @@ class CurrencyFetcher extends Command
             return $this->warn('currencies already fetched this day');
         }
 
+        if (!(file_exists(storage_path('app/historical-currencies/')) && is_dir(storage_path('app/historical-currencies/')))) {
+            mkdir(storage_path('app/historical-currencies/'), 0777);
+        }
+
         $apiKey = config('services.exchangerates.api_key');
         $file = storage_path('app/historical-currencies/' . today()->format('Y-m-d') . '.json');
 

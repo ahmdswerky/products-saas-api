@@ -27,9 +27,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Auth::viaRequest('key', function (Request $request) {
+        Auth::viaRequest('key', function () {
             return User::whereHas('merchant', function ($query) {
-                $query->where('api_key', apiKey());
+                $query->where('api_key', api_key());
             })->first();
         });
     }

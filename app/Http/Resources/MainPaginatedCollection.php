@@ -14,7 +14,7 @@ class MainPaginatedCollection extends ResourceCollection
             'data' => [],
             'total' => $resource->total(),
             //'count' => $resource->count(),
-            'per_page' => $resource->perPage(),
+            'per_page' => (int) $resource->perPage(),
             'current_page' => $resource->currentPage(),
             'last_page' => $resource->lastPage(),
             'has_more' => $resource->lastPage() > $resource->currentPage(),

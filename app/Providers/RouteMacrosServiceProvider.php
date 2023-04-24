@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Str;
+use App\Helpers\ResourceRegistrar;
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\PendingResourceRegistration;
 
 class RouteMacrosServiceProvider extends ServiceProvider
 {
@@ -15,39 +17,18 @@ class RouteMacrosServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::macro('api', function ($uri, $controller, $options = []) {
-            $mapping = [
-                'none' => [
-                    'index' => 'get',
-                    'store' => 'post',
-                ],
-                'id' => [
-                    'show' => 'get',
-                    'update' => 'post',
-                    'destroy' => 'delete',
-                ],
-            ];
+        $self = $this;
 
-            collect($mapping)->map(function ($routes, $type) use ($uri, $controller) {
-                $name = last(explode('/', $uri));
-                $id = explode('/', $uri);
-                $id = Str::singular(last($id));
-                $id = "{{$id}}";
+        Route::macro('apiRoutes', function ($name, $controller, $options = []) use ($self) {
+            $only = ['index', 'show', 'store', 'update', 'destroy'];
 
-                if ($type === 'none') {
-                    collect($routes)
-                        ->map(
-                            fn ($method, $route) => Route::{$method}($uri, [$controller, $route])
-                                ->name(implode('.', [$name, $route]))
-                        );
-                } else {
-                    collect($routes)
-                        ->map(
-                            fn ($method, $route) => Route::{$method}(implode('/', [$uri, $id]), [$controller, $route])
-                                ->name(implode('.', [$name, $route]))
-                        );
-                }
-            });
+            if (isset($options['except'])) {
+                $only = array_diff($only, (array) $options['except']);
+            }
+
+            return $self->resource($name, $controller, array_merge([
+                'only' => $only,
+            ], $options));
         });
     }
 
@@ -59,5 +40,23 @@ class RouteMacrosServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    public function resource($name, $controller, array $options = [])
+    {
+        $container = new Container;
+
+        if ($container && $container->bound(ResourceRegistrar::class)) {
+            $registrar = $container->make(ResourceRegistrar::class);
+        } else {
+            $registrar = new ResourceRegistrar($this->app['router']);
+        }
+
+        return new PendingResourceRegistration(
+            $registrar,
+            $name,
+            $controller,
+            $options
+        );
     }
 }

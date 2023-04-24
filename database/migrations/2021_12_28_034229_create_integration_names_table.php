@@ -17,6 +17,9 @@ class CreateIntegrationNamesTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->string('category');
+            $table->string('icon')->nullable();
+            $table->string('url')->nullable();
             $table->string('slug')->unique();
             $table->boolean('is_available')->default(true);
             $table->softDeletes();

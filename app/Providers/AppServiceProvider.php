@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if (config('filesystems.storage-path')) {
+            $this->app->useStoragePath( realpath(config('filesystems.storage-path')) . '/storage');
+        }
     }
 
     /**

@@ -37,11 +37,24 @@ class ProductController extends Controller
     {
         //$merchant = Merchant::byApiKey(request()->header('api-key'))->firstOrFail();
         //$products = Product::filter($filter)->latest()->paginate(per_page());
-        $products = $this->merchant()->products()->filter($filter)->latest()->paginate(per_page());
-
-        return new MainPaginatedCollection(
-            ProductResource::collection($products)
+        //$products = $this->cache(
+        return $this->cache(
+            //'api:products-list:page-' . $filter->request->query('page') ?: 1,
+            'api:products-list:',
+            fn () => new MainPaginatedCollection(
+                ProductResource::collection(
+                    $this->merchant()
+                        ->products()
+                        ->filter($filter)
+                        ->latest()
+                        ->paginate(per_page()),
+                ),
+            ),
         );
+
+        //return new MainPaginatedCollection(
+        //    ProductResource::collection($products)
+        //);
     }
 
     /**
@@ -74,6 +87,13 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        return $this->cache(
+            'api:products-show:' . $product->id . ':',
+            fn () => response([
+                'product' => new ProductResource($product),
+            ]),
+        );
+
         return response([
             'product' => new ProductResource($product),
         ]);

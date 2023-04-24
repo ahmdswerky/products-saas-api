@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class QueryFilter
 {
     /** @var Request */
-    protected $request;
+    public $request;
 
     /** @var Builder */
     protected $builder;
