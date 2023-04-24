@@ -1,0 +1,13 @@
+[2022-11-26 21:32:04] local.ERROR: realpath() expects exactly 1 argument, 0 given {"exception":"[object] (ArgumentCountError(code: 0): realpath() expects exactly 1 argument, 0 given at /home/swerky/dev/simple-ecommerce/server/api/app/Providers/AppServiceProvider.php:16)
+[stacktrace]
+#0 /home/swerky/dev/simple-ecommerce/server/api/app/Providers/AppServiceProvider.php(16): realpath()
+#1 /home/swerky/dev/simple-ecommerce/server/api/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(689): App\\Providers\\AppServiceProvider->register()
+#2 /home/swerky/dev/simple-ecommerce/server/api/vendor/laravel/framework/src/Illuminate/Foundation/ProviderRepository.php(75): Illuminate\\Foundation\\Application->register()
+#3 /home/swerky/dev/simple-ecommerce/server/api/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(666): Illuminate\\Foundation\\ProviderRepository->load()
+#4 /home/swerky/dev/simple-ecommerce/server/api/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(17): Illuminate\\Foundation\\Application->registerConfiguredProviders()
+#5 /home/swerky/dev/simple-ecommerce/server/api/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(242): Illuminate\\Foundation\\Bootstrap\\RegisterProviders->bootstrap()
+#6 /home/swerky/dev/simple-ecommerce/server/api/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(383): Illuminate\\Foundation\\Application->bootstrapWith()
+#7 /home/swerky/dev/simple-ecommerce/server/api/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(153): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#8 /home/swerky/dev/simple-ecommerce/server/api/artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle()
+#9 {main}
+"} 
